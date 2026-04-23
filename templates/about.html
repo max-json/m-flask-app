@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - CYRA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .about-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .about-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .mission-section {
+            background: white;
+            padding: 4rem 2rem;
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .mission-card {
+            background: #f8fafc;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .mission-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .features-section {
+            background: white;
+            padding: 4rem 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .about-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-hero p {
+                font-size: 1.1rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-button {
+                width: 200px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation in Top Right Corner -->
+    <nav>
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}">Home</a>
+            {% if session.user %}
+                <a href="{{ url_for('logout') }}">Logout ({{ session.user }})</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('signup') }}">Sign Up</a>
+            {% endif %}
+            <a href="{{ url_for('about') }}">About</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="hero-content">
+            <h1>🛡️ CYRA</h1>
+            <p>Advanced AI-powered phishing website detection system protecting users from online threats</p>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission-section">
+        <div class="mission-grid">
+            <div class="mission-card">
+                <div class="mission-icon">🎯</div>
+                <h3>Our Mission</h3>
+                <p>To create a safer internet by detecting and preventing phishing attacks before they can cause harm to users and organizations.</p>
+            </div>
+            
+            <div class="mission-card">
+                <div class="mission-icon">🔍</div>
+                <h3>How It Works</h3>
+                <p>Using machine learning algorithms and real-time analysis, we scan websites for phishing indicators and suspicious patterns.</p>
+            </div>
+            
+            <div class="mission-card">
+                <div class="mission-icon">⚡</div>
+                <h3>Real-time Protection</h3>
+                <p>Instant detection and warning system that alerts users before they enter sensitive information on suspicious sites.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <h2 style="margin-bottom: 3rem;">📊 By the Numbers</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">99.7%</div>
+                <div class="stat-label">Detection Accuracy</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Websites Analyzed Daily</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">0.2s</div>
+                <div class="stat-label">Average Scan Time</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1M+</div>
+                <div class="stat-label">Users Protected</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2 style="text-align: center; margin-bottom: 3rem; color: #667eea;">✨ Advanced Features</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <h3>🤖 AI-Powered Detection</h3>
+                <p>Machine learning models trained on millions of phishing samples for superior accuracy.</p>
+            </div>
+            <div class="feature-item">
+                <h3>🌐 URL Analysis</h3>
+                <p>Comprehensive scanning of website URLs, content, and structure for phishing indicators.</p>
+            </div>
+            <div class="feature-item">
+                <h3>🔒 SSL Certificate Check</h3>
+                <p>Verification of SSL certificates and encryption standards for secure connections.</p>
+            </div>
+            <div class="feature-item">
+                <h3>📧 Email Protection</h3>
+                <p>Integration with email systems to detect phishing attempts in messages and links.</p>
+            </div>
+            <div class="feature-item">
+                <h3>📊 Threat Intelligence</h3>
+                <p>Real-time updates from global threat databases and security communities.</p>
+            </div>
+            <div class="feature-item">
+                <h3>🚨 Instant Alerts</h3>
+                <p>Immediate warnings when users attempt to access known or suspected phishing sites.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Ready to Stay Protected?</h2>
+        <p>Join thousands of users who trust CYRA for their online security</p>
+        <div class="cta-buttons">
+            {% if session.user %}
+                <a href="{{ url_for('home') }}" class="cta-button">Start Scanning</a>
+            {% else %}
+                <a href="{{ url_for('signup') }}" class="cta-button">Get Started Free</a>
+                <a href="{{ url_for('login') }}" class="cta-button">Login to Account</a>
+            {% endif %}
+            <a href="{{ url_for('home') }}" class="cta-button">Learn More</a>
+        </div>
+    </section>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div style="position: fixed; top: 80px; right: 20px; z-index: 1000;">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" style="margin-bottom: 10px; padding: 1rem; border-radius: 10px;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

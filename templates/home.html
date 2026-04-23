@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️ CYRA | Advanced Phishing Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: radial-gradient(ellipse at top, #1a1a2e, #16213e);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated Gradient Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 80px;
+            padding: 0.8rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-container a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+        }
+        
+        .nav-container a:hover {
+            background: rgba(102, 126, 234, 0.3);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .nav-container span {
+            color: rgba(255, 255, 255, 0.9);
+            margin-right: 10px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        /* Main Container */
+        .main-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 100px 20px 60px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Hero Section */
+        .hero-text {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-text .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+        
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #a8b2ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-text p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Detector Card - Premium Glassmorphism */
+        .detector-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .detector-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.6);
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .url-input {
+            flex: 1;
+            padding: 18px 24px;
+            font-size: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 60px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.95);
+            color: #1a1a2e;
+            font-weight: 500;
+        }
+        
+        .url-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+            background: white;
+        }
+        
+        .check-btn {
+            padding: 18px 36px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .check-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .check-btn:hover::before {
+            left: 100%;
+        }
+        
+        .check-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Result Box */
+        .result-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 32px;
+            text-align: center;
+            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result-box.phishing {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.5);
+        }
+        
+        .result-box.safe {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.5);
+        }
+        
+        .result-status {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .result-box.phishing .result-status {
+            color: #f87171;
+        }
+        
+        .result-box.safe .result-status {
+            color: #34d399;
+        }
+        
+        .confidence {
+            font-size: 14px;
+            margin: 10px 0;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .checked-url {
+            margin-top: 12px;
+            word-break: break-all;
+            font-size: 13px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .warning-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .warning-message.high {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+        
+        .warning-message.safe {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 0.8rem;
+        }
+        
+        .feature .feature-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature .feature-text {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Footer Stats */
+        .footer-stats {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 1;
+        }
+        
+        .footer-stats span {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0 5px;
+            display: inline-block;
+        }
+        
+        /* Flash Messages */
+        .flash-messages {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            z-index: 1000;
+        }
+        
+        .alert {
+            margin-bottom: 10px;
+            padding: 12px 20px;
+            border-radius: 60px;
+            animation: slideRight 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+            font-size: 13px;
+        }
+        
+        @keyframes slideRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .alert-success {
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+        }
+        
+        .alert-error {
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+        }
+        
+        .alert-info {
+            background: rgba(59, 130, 246, 0.9);
+            color: white;
+        }
+        
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid white;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                top: 10px;
+                right: 15px;
+                left: 15px;
+                padding: 0.6rem 1rem;
+            }
+            
+            .nav-container a {
+                padding: 5px 12px;
+                font-size: 11px;
+            }
+            
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .detector-card {
+                padding: 1.5rem;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            
+            .flash-messages {
+                top: 80px;
+                right: 15px;
+                left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            {% if session.user %}
+                <span>👋 {{ session.user.split('@')[0] }}</span>
+                <a href="{{ url_for('logout') }}">🚪 Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">🔐 Login</a>
+                <a href="{{ url_for('signup') }}">📝 Sign Up</a>
+            {% endif %}
+            <a href="{{ url_for('about') }}">ℹ️ About</a>
+            {% if session.is_admin %}
+                <a href="{{ url_for('admin_dashboard') }}">👑 Admin</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <div>
+            <div class="hero-text">
+                <div class="badge">🚀 AI-POWERED SECURITY</div>
+                <h1>CYRA</h1>
+                <p>Real-time phishing detection with 99.7% accuracy</p>
+            </div>
+            
+            <div class="detector-card">
+                <form method="POST" action="{{ url_for('detect_phishing') }}" id="detectForm">
+                    <div class="input-group">
+                        <input type="text" name="url" class="url-input" 
+                               placeholder="Paste suspicious URL here..." 
+                               required id="urlInput">
+                        <button type="submit" class="check-btn" id="checkBtn">
+                            🔍 Analyze
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Detection Results -->
+                {% if detection_result %}
+                <div class="result-box {{ result_class }}">
+                    <div class="result-status">
+                        {{ detection_result }}
+                    </div>
+                    {% if confidence %}
+                    <div class="confidence">
+                        🎯 Confidence Score: {{ confidence }}%
+                    </div>
+                    {% endif %}
+                    <div class="checked-url">
+                        <strong>URL:</strong> {{ checked_url }}
+                    </div>
+                    {% if threat_level == 'HIGH' %}
+                    <div class="warning-message high">
+                        🚨 CRITICAL: This is a phishing attempt! Do not proceed.
+                    </div>
+                    {% else %}
+                    <div class="warning-message safe">
+                        ✅ Safe - No threats detected
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                
+                <!-- Features -->
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">⚡</div>
+                        <div class="feature-text">Real-time</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-text">99.7% Accuracy</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🛡️</div>
+                        <div class="feature-text">Zero-Day Protection</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-stats">
+        <span>⚡ Instant Results</span>
+        <span>🎯 30+ Detection Points</span>
+        <span>🛡️ Random Forest ML</span>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <script>
+        // Create particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = Math.random() * 10 + 10 + 's';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+        
+        // Auto-hide flash messages
+        setTimeout(function() {
+            const flashMessages = document.querySelector('.flash-messages');
+            if (flashMessages) {
+                flashMessages.style.display = 'none';
+            }
+        }, 4000);
+        
+        // Loading effect
+        const form = document.getElementById('detectForm');
+        const checkBtn = document.getElementById('checkBtn');
+        const urlInput = document.getElementById('urlInput');
+        
+        if (form) {
+            form.addEventListener('submit', function() {
+                if (urlInput.value.trim()) {
+                    checkBtn.disabled = true;
+                    checkBtn.innerHTML = '🔄 Analyzing <span class="loading"></span>';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
